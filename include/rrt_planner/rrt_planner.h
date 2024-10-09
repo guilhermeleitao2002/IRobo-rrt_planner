@@ -21,12 +21,6 @@ namespace rrt_planner {
             RRTPlanner(costmap_2d::Costmap2DROS *costmap, const rrt_params& params);
 
             /**
-             * @brief Smooth the path by removing unnecessary waypoints
-             * @param path The path to smooth
-             */
-            void smoothPath(std::vector<Node>& path);
-
-            /**
              * @brief   Plan a path using RRT
              * @return  True if found, false otherwise 
              */

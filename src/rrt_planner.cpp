@@ -16,29 +16,6 @@
             nodes_.reserve(params_.max_num_nodes);
         }
 
-        void RRTPlanner::smoothPath(std::vector<Node>& path) { 
-            int max_iterations = params_.smoothing_iterations;
-            if (max_iterations == 0) return;
-
-            for (int i = 0; i < max_iterations; ++i) {
-                if (path.size() < 3) break;
-
-                int idx1 = rand() % path.size();
-                int idx2 = rand() % path.size();
-
-                if (abs(idx1 - idx2) <= 1) continue;
-
-                if (idx1 > idx2) std::swap(idx1, idx2);
-
-                const double* p1 = path[idx1].pos;
-                const double* p2 = path[idx2].pos;
-
-                if (!collision_dect_.obstacleBetween(p1, p2)) {
-                    path.erase(path.begin() + idx1 + 1, path.begin() + idx2);
-                }
-            }
-        }
-
         bool RRTPlanner::planPath() {
 
             // clear everything before planning

@@ -38,7 +38,6 @@ namespace rrt_planner {
             nh.param("rrt/min_num_nodes", params_.min_num_nodes, 5000);
             nh.param("rrt/max_num_nodes", params_.max_num_nodes, 30000);
             nh.param("rrt/goal_bias", params_.goal_bias, 0.05);
-            nh.param("rrt/smoothing_iterations", params_.smoothing_iterations, 0);
 
             plan_pub_ = nh.advertise<nav_msgs::Path>("global_plan", 1);
 

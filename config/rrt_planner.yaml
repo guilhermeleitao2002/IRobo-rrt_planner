@@ -5,7 +5,6 @@ RRTPlannerROS: {
     step: 0.20,
     min_num_nodes: 200,
     max_num_nodes: 5000,
-    goal_bias: 0.1,
-    smoothing_iterations: 100
-}
+    goal_bias: 0.1
+  }
 }
