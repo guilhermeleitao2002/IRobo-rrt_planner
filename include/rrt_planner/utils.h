@@ -9,6 +9,8 @@ namespace rrt_planner {
         int max_num_nodes;
         double goal_tolerance;
         double step;
+        double goal_bias;
+        int smoothing_iterations;        
     };
 
     struct Node {
