@@ -1,0 +1,7 @@
+<library path="lib/librrt_planner">
+  <class name="rrt_planner/RRTPlannerROS" type="rrt_planner::RRTPlannerROS" base_class_type="nav_core::BaseGlobalPlanner">
+    <description>
+        This is RRTPlannerROS plugin by Joao Pinto, Rita Cunha, and Andre Nogueira.
+    </description>
+  </class>
+</library>
