@@ -35,10 +35,15 @@ namespace rrt_planner {
              */ 
             bool obstacleBetween(const double* point_a, const double* point_b);
 
+            void increaseObstacleCost();
+            void restoreObstacleCost();
+            void decreaseObstacleCost();
+
         private:
             costmap_2d::Costmap2D* costmap_;
             double robot_radius_;
             double resolution_, origin_x_, origin_y_;
+            int obstacleCost_;
     };
 
 

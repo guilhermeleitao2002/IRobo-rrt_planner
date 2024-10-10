@@ -1,3 +1,4 @@
+
 #include <rrt_planner/collision_detector.h>
 
 namespace rrt_planner {
@@ -9,54 +10,37 @@ namespace rrt_planner {
         resolution_ = costmap_->getResolution();
         origin_x_ = costmap_->getOriginX();
         origin_y_ = costmap_->getOriginY();
-        robot_radius_ = 0.210; // TODO: Get this from the robot model // 0.205
 
+        restoreObstacleCost();
     }
 
+    // IMPLEMENTED THIS 
     bool CollisionDetector::inFreeSpace(const double* world_pos) {
-
-        unsigned int mx_center, my_center;
         // Convert world coordinates to map coordinates
-        if (!costmap_->worldToMap(world_pos[0], world_pos[1], mx_center, my_center)) {
-            // Point is outside the map bounds
+        unsigned int mx, my;
+        if (!costmap_->worldToMap(world_pos[0], world_pos[1], mx, my)) {
+            // The world_pos is out of bounds
             return false;
         }
 
-        // Calculate the number of cells that cover the robot's radius
-        int cell_radius = static_cast<int>(ceil(robot_radius_ / resolution_));
+        // Check the cost of the cell in the costmap
+        unsigned char cost = costmap_->getCost(mx, my);
 
-        // Iterate over the square that bounds the circle
-        for (int dx = -cell_radius; dx <= cell_radius; dx++) {
-            for (int dy = -cell_radius; dy <= cell_radius; dy++) {
+        // If the cost is less than the threshold, it's considered free space
+        return cost <= 127;
+    }
 
-                int mx = mx_center + dx;
-                int my = my_center + dy;
+    void CollisionDetector::increaseObstacleCost() {
+        obstacleCost_ += 5;
+    }
 
-                // Check if the cell is within the map bounds
-                if (mx < 0 || mx >= static_cast<int>(costmap_->getSizeInCellsX()) ||
-                    my < 0 || my >= static_cast<int>(costmap_->getSizeInCellsY())) {
-                    // Out of bounds, treat as occupied
-                    return false;
-                }
+    void CollisionDetector::restoreObstacleCost() {
+        obstacleCost_ = 127;
+    }
 
-                // Calculate the distance from the center cell to this cell
-                double x = (mx - mx_center) * resolution_;
-                double y = (my - my_center) * resolution_;
-                double distance = sqrt(x * x + y * y);
-
-                if (distance <= robot_radius_) {
-                    // Check the cost at this cell
-                    unsigned char cost = costmap_->getCost(mx, my);
-                    if (cost >= costmap_2d::INSCRIBED_INFLATED_OBSTACLE) {
-                        // Collision detected within robot's radius
-                        return false;
-                    }
-                }
-            }
-        }
-
-        // No collision detected within robot's radius
-        return true;
+    void CollisionDetector::decreaseObstacleCost() {
+        if (obstacleCost_ > 127)
+            obstacleCost_ -= 5;
     }
 
     bool CollisionDetector::obstacleBetween(const double* point_a, const double* point_b) {
