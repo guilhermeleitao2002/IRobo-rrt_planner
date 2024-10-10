@@ -44,7 +44,7 @@ namespace rrt_planner {
              * @param pos 2D coordinates of the new node
              * @param parent_node_id Id of the parent node of the new node
              */
-            int createNewNode(const double* pos, int parent_node_id);
+            void createNewNode(const double* pos, int parent_node_id);
 
             /** 
              * @brief Connect the sampled random point to nearest tree node.
@@ -75,24 +75,6 @@ namespace rrt_planner {
              */
             const std::vector<Node>& getTree();
 
-            int getNodeId(double *point);
-
-            int getBestNodeId();
-
-            double getBestCost();
-
-            void setBestCost(double cost);
-
-            double* getBestNodePos();
-
-            int newBestNodeFound();
-
-            void increaseObstacleCost();
-
-            void restoreObstacleCost();
-
-            void decreaseObstacleCost();
-
             ~RRTPlanner() {};
 
             
@@ -100,10 +82,7 @@ namespace rrt_planner {
                 double start_[2], goal_[2];
                 double rand_point_[2], candidate_point_[2];
                 float map_width_, map_height_;
-                int best_node_id_;
-                double best_pos_[2];
                 double best_cost_;
-                int newBestNodeFound_;
                 costmap_2d::Costmap2D* costmap_;
                 std::vector<Node> nodes_;
                 rrt_params params_;

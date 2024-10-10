@@ -11,36 +11,22 @@ namespace rrt_planner {
         origin_x_ = costmap_->getOriginX();
         origin_y_ = costmap_->getOriginY();
 
-        restoreObstacleCost();
     }
 
-    // IMPLEMENTED THIS 
+    // IMPLEMENTED THIS
     bool CollisionDetector::inFreeSpace(const double* world_pos) {
-        // Convert world coordinates to map coordinates
-        unsigned int mx, my;
-        if (!costmap_->worldToMap(world_pos[0], world_pos[1], mx, my)) {
+        unsigned int map_x, map_y;
+        
+        if (!costmap_->worldToMap(world_pos[0], world_pos[1], map_x, map_y)) {
             // The world_pos is out of bounds
             return false;
         }
 
         // Check the cost of the cell in the costmap
-        unsigned char cost = costmap_->getCost(mx, my);
+        unsigned char cost = costmap_->getCost(map_x, map_y);
 
         // If the cost is less than the threshold, it's considered free space
         return cost <= 127;
-    }
-
-    void CollisionDetector::increaseObstacleCost() {
-        obstacleCost_ += 5;
-    }
-
-    void CollisionDetector::restoreObstacleCost() {
-        obstacleCost_ = 127;
-    }
-
-    void CollisionDetector::decreaseObstacleCost() {
-        if (obstacleCost_ > 127)
-            obstacleCost_ -= 5;
     }
 
     bool CollisionDetector::obstacleBetween(const double* point_a, const double* point_b) {
