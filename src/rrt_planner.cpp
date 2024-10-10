@@ -78,14 +78,18 @@
         }
 
         double* RRTPlanner::sampleRandomPoint() {
-
-            // Random sampling
-            rand_point_[0] = random_double_x.generate();
-            rand_point_[1] = random_double_y.generate();
-
+            double p = ((double) rand()) / RAND_MAX;
+            if (p <= params_.goal_bias) {
+                // Bias towards the goal
+                rand_point_[0] = goal_[0];
+                rand_point_[1] = goal_[1];
+            } else {
+                // Random sampling
+                rand_point_[0] = random_double_x.generate();
+                rand_point_[1] = random_double_y.generate();
+            }
             return rand_point_;
         }
-
 
         double* RRTPlanner::extendTree(const double* point_nearest, const double* point_rand) {
 
