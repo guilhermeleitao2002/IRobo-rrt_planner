@@ -79,17 +79,9 @@
 
         double* RRTPlanner::sampleRandomPoint() {
 
-            double p = static_cast<double>(rand()) / RAND_MAX; // Random number between 0 and 1
-
-            if (p < params_.goal_bias) {
-                // Bias towards the goal
-                rand_point_[0] = goal_[0];
-                rand_point_[1] = goal_[1];
-            } else {
-                // Random sampling
-                rand_point_[0] = random_double_x.generate();
-                rand_point_[1] = random_double_y.generate();
-            }
+            // Random sampling
+            rand_point_[0] = random_double_x.generate();
+            rand_point_[1] = random_double_y.generate();
 
             return rand_point_;
         }

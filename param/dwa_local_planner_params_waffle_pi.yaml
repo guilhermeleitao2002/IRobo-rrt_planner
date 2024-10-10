@@ -1,8 +1,8 @@
 DWAPlannerROS:
 
 # Robot Configuration Parameters
-  max_vel_x: 0.26
-  min_vel_x: 0.0  # -0.26 # this is to avoid going backwards
+  max_vel_x: 0.26 # 0.26
+  min_vel_x: -0.05  # -0.26 # this is to avoid going backwards
 
   max_vel_y: 0.0
   min_vel_y: 0.0
@@ -19,9 +19,9 @@ DWAPlannerROS:
   acc_lim_theta: 3.2 
 
 # Goal Tolerance Parametes
-  xy_goal_tolerance: 0.20 # 0.05
+  xy_goal_tolerance: 0.10 # 0.05 # this is supposed to match the goal_tolerance in rrt_planner.yaml
   yaw_goal_tolerance: 0.17
-  latch_xy_goal_tolerance: true   # false
+  latch_xy_goal_tolerance: true   # false # this is to make the robot stop exactly at the goal position while it adjusts its orientation
 
 # Forward Simulation Parameters
   sim_time: 2.0
