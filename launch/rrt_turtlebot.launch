@@ -43,6 +43,14 @@
     <remap from="odom" to="$(arg odom_topic)"/>
   </node>
 
+  <!-- Add Hector Trajectory Server to visualize the path -->
+  <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="localization_trajectory_server">
+    <param name="source_frame_name" value="base_scan" />
+    <param name="target_frame_name" value="map" />
+    <param name="trajectory_update_rate" value="10.0" />
+    <param name="trajectory_publish_rate" value="10.0" />
+  </node>
+
   <!-- rviz -->
   <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find rrt_planner)/rviz/rrt_turtlebot_sim.rviz"/>
 </launch>
