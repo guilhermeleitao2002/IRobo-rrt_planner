@@ -11,6 +11,9 @@ namespace rrt_planner {
         map_width_  = costmap_->getSizeInMetersX();
         map_height_ = costmap_->getSizeInMetersY();
 
+        // Set the threshold for the collision detector
+        collision_dect_.setThreshold(params_.threshold);
+
         random_double_x.setRange(-map_width_, map_width_);
         random_double_y.setRange(-map_height_, map_height_);
 
@@ -27,12 +30,7 @@ namespace rrt_planner {
 
         double *p_rand, *p_new;
         Node nearest_node;
-        int new_id;
         
-        // Initially, the best node is the start node
-        // and the first best cost is the distance between the start and the goal
-        best_cost_ = computeDistance(start_, goal_);
-
         for (unsigned int k = 1; k <= params_.max_num_nodes; k++) {
 
             p_rand = sampleRandomPoint();
@@ -41,24 +39,13 @@ namespace rrt_planner {
 
             if (!collision_dect_.obstacleBetween(nearest_node.pos, p_new)) {
                 createNewNode(p_new, nearest_node.node_id);
-                new_id = nodes_.back().node_id;
             } else {
                 continue;
             }
 
-            // Added this to check if the new node is closer to the goal
-            // and if it is, update the best node and best cost
-            double new_cost = computeDistance(p_new, goal_);
-            if (new_cost < best_cost_) {
-                best_cost_ = new_cost;
-                if (best_cost_ <= params_.goal_tolerance) {
-                    return true;
-                }
-            }
-
             if(k > params_.min_num_nodes) {
                 
-                if(new_cost <= params_.goal_tolerance) {
+                if(computeDistance(p_new, goal_) <= params_.goal_tolerance) {
                     return true;
                 }
             }
@@ -90,23 +77,21 @@ namespace rrt_planner {
         new_node.pos[1] = pos[1];
         new_node.parent_id = parent_node_id;
 
+        if (parent_node_id != -1) {
+            new_node.cost_to_go = nodes_[parent_node_id].cost_to_go + computeDistance(nodes_[parent_node_id].pos, pos);
+        }
+
         nodes_.emplace_back(new_node);
     }
 
     double* RRTPlanner::sampleRandomPoint() {
         double bias = ((double) rand() / (RAND_MAX));
         
-        if (bias < params_.goal_bias) { // prob of choosing goal point
+        if (bias < params_.goal_bias) { // probability of choosing the goal point
             rand_point_[0] = goal_[0];
             rand_point_[1] = goal_[1];
             return rand_point_;
-        } else if (bias < params_.goal_bias * 2) {  // prob of smoothing the path by choosing a point near the goal
-            random_double_x.setRange(start_[0], goal_[0]);
-            random_double_y.setRange(start_[1], goal_[1]);
-
-            rand_point_[0] = goal_[0] + random_double_x.generate();
-            rand_point_[1] = goal_[1] + random_double_y.generate();
-        } else {    // prob of choosing a random point on the map
+        } else {                        // probability of choosing a random point on the map
             do {
                 random_double_x.setRange(-map_width_, map_width_);
                 random_double_y.setRange(-map_height_, map_height_);
@@ -121,27 +106,25 @@ namespace rrt_planner {
     }
 
     double* RRTPlanner::extendTree(const double* point_nearest, const double* point_rand) {
+        double distance = computeDistance(point_nearest, point_rand);        
+        
+        // Calculate the vector between the nearest node and the random point
         double x = point_rand[0] - point_nearest[0];
         double y = point_rand[1] - point_nearest[1];
-
-        double distance = computeDistance(point_nearest, point_rand);
         
         // Normalize the vector
         double nx = x / distance;
         double ny = y / distance;
 
-        // Apply the step size
-        candidate_point_[0] = point_nearest[0] + nx * params_.step;
-        candidate_point_[1] = point_nearest[1] + ny * params_.step;
 
         // If the distance is more than the step size, move the point by the step size
-        // if (distance > params_.step) {
-        //     candidate_point_[0] = point_nearest[0] + nx * params_.step;
-        //     candidate_point_[1] = point_nearest[1] + ny * params_.step;
-        // } else {
-        //     candidate_point_[0] = point_rand[0];
-        //     candidate_point_[1] = point_rand[1];
-        // }
+        if (distance > params_.step) {
+            candidate_point_[0] = point_nearest[0] + nx * params_.step;
+            candidate_point_[1] = point_nearest[1] + ny * params_.step;
+        } else {
+            candidate_point_[0] = point_rand[0];
+            candidate_point_[1] = point_rand[1];
+        }
 
         return candidate_point_;
     }

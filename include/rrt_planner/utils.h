@@ -10,6 +10,7 @@ namespace rrt_planner {
         double goal_tolerance;
         double step;
         double goal_bias;
+        int threshold;
     };
 
     struct Node {

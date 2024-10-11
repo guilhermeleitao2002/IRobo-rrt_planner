@@ -13,7 +13,6 @@ namespace rrt_planner {
 
     }
 
-    // IMPLEMENTED THIS
     bool CollisionDetector::inFreeSpace(const double* world_pos) {
         unsigned int map_x, map_y;
         
@@ -26,7 +25,11 @@ namespace rrt_planner {
         unsigned char cost = costmap_->getCost(map_x, map_y);
 
         // If the cost is less than the threshold, it's considered free space
-        return cost <= 127;
+        return cost <= threshold_;
+    }
+
+    void CollisionDetector::setThreshold(int threshold) {
+        threshold_ = threshold;
     }
 
     bool CollisionDetector::obstacleBetween(const double* point_a, const double* point_b) {

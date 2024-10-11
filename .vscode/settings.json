@@ -11,6 +11,9 @@
         "*.tcc": "cpp",
         "deque": "cpp",
         "vector": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "random": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp"
     }
 }

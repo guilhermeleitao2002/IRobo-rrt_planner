@@ -18,6 +18,7 @@ namespace rrt_planner {
             /**
              * @brief   Constructor for the CollisionDetector object
              * @param   costmap A pointer to the ROS wrapper of the costmap used for planning
+             * @param   threshold The threshold value for considering a cell as free space
              */ 
             explicit CollisionDetector(costmap_2d::Costmap2DROS* costmap);
 
@@ -27,6 +28,12 @@ namespace rrt_planner {
              * @return  True if yes, false otherwise
              */ 
             bool inFreeSpace(const double* world_pos);
+
+            /**
+             * @brief   Set the threshold value for considering a cell as free space
+             * @param   threshold The threshold value
+             */
+            void setThreshold(int threshold);
 
             /**
              * @brief   Examine whether there is an obstacle between point_a and point_b
@@ -39,6 +46,7 @@ namespace rrt_planner {
             costmap_2d::Costmap2D* costmap_;
             double robot_radius_;
             double resolution_, origin_x_, origin_y_;
+            int threshold_;
     };
 
 
