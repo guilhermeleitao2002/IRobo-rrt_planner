@@ -134,6 +134,15 @@ namespace rrt_planner {
         candidate_point_[0] = point_nearest[0] + nx * params_.step;
         candidate_point_[1] = point_nearest[1] + ny * params_.step;
 
+        // If the distance is more than the step size, move the point by the step size
+        // if (distance > params_.step) {
+        //     candidate_point_[0] = point_nearest[0] + nx * params_.step;
+        //     candidate_point_[1] = point_nearest[1] + ny * params_.step;
+        // } else {
+        //     candidate_point_[0] = point_rand[0];
+        //     candidate_point_[1] = point_rand[1];
+        // }
+
         return candidate_point_;
     }
 
