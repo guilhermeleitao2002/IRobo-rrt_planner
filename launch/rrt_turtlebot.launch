@@ -2,7 +2,7 @@
   <!-- Arguments -->
   <arg name="model" default="waffle_pi"/>
   <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
-  <arg name="move_forward_only" default="false"/>  <!-- default was false -->
+  <arg name="move_forward_only" default="false"/>
   <arg name="cmd_vel_topic" default="/cmd_vel"/>
   <arg name="odom_topic" default="odom"/>
 
