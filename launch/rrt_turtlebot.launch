@@ -54,5 +54,6 @@
   <!-- rviz -->
   <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find rrt_planner)/rviz/rrt_turtlebot_sim.rviz"/>
 
+
   <node pkg="rrt_planner" type="metrics.py" name="metrics" output="screen"/>
 </launch>
