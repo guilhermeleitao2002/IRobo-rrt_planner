@@ -99,7 +99,7 @@ namespace rrt_planner {
                 rand_point_[0] = random_double_x.generate();
                 rand_point_[1] = random_double_y.generate();
 
-            } while(collision_dect_.inFreeSpace(rand_point_));
+            } while(!collision_dect_.inFreeSpace(rand_point_));
         }
 
         return rand_point_;
