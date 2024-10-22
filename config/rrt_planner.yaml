@@ -6,6 +6,6 @@ RRTPlannerROS: {
     min_num_nodes: 1000, # minimal number of nodes it need to find a path until it accepts the path
     max_num_nodes: 5000, # maximal number of nodes it can have
     goal_bias: 0.9,  # the probability of choosing the goal as the next node
-    threshold: 117 # controls how much we should avoid the obstacles (the lower the more it avoids)
+    threshold: 140 # controls how much we should avoid the obstacles (the lower the more it avoids)
   }
 }
