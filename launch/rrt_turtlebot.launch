@@ -1,14 +1,14 @@
 <launch>
   <!-- Arguments -->
   <arg name="model" default="waffle_pi"/>
-  <!-- <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/> -->
+  <arg name="map_file" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
   <arg name="map_file" default="$(find irobo)/data/turtle_map.yaml"/>
   <arg name="move_forward_only" default="false"/>
   <arg name="cmd_vel_topic" default="/cmd_vel"/>
   <arg name="odom_topic" default="odom"/>
 
   <!-- Turtlebot3 Gazebo -->
-  <!-- <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch" /> -->
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_world.launch" />
 
   <!-- Turtlebot3 -->
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
@@ -20,8 +20,8 @@
 
   <!-- AMCL -->
   <include file="$(find turtlebot3_navigation)/launch/amcl.launch">
-    <arg name="initial_pose_x" default="0.0"/> <!-- -2.0 -->
-    <arg name="initial_pose_y" default="0.0"/> <!-- -0.5 -->
+    <arg name="initial_pose_x" default="-2.0"/>
+    <arg name="initial_pose_y" default="0.5"/> 
     <arg name="initial_pose_a" default="0.0"/>
   </include>
 
@@ -55,5 +55,5 @@
   <!-- rviz -->
   <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find rrt_planner)/rviz/rrt_turtlebot_sim.rviz"/>
 
-  <!-- <node pkg="rrt_planner" type="metrics.py" name="metrics" output="screen"/> -->
+  <node pkg="rrt_planner" type="metrics.py" name="metrics" output="screen"/>
 </launch>
