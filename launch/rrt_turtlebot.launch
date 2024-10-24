@@ -21,7 +21,7 @@
   <!-- AMCL -->
   <include file="$(find turtlebot3_navigation)/launch/amcl.launch">
     <arg name="initial_pose_x" default="-2.0"/>
-    <arg name="initial_pose_y" default="0.5"/> 
+    <arg name="initial_pose_y" default="0.5"/>
     <arg name="initial_pose_a" default="0.0"/>
   </include>
 
@@ -55,5 +55,6 @@
   <!-- rviz -->
   <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find rrt_planner)/rviz/rrt_turtlebot_sim.rviz"/>
 
+  <!-- Metrics script -->
   <node pkg="rrt_planner" type="metrics.py" name="metrics" output="screen"/>
 </launch>
